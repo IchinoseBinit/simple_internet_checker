@@ -25,7 +25,6 @@ class ConnectivityProvider extends ChangeNotifier {
       notify();
     } else {
       remove();
-      // ScaffoldMessenger.of(context).show
     }
   }
 

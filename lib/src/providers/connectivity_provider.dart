@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_internet_checker/src/constant/app_constant.dart';
-import 'package:simple_internet_checker/src/screen/connectivity_screen.dart';
 
 /// Function to retrieve the provider instance
 ConnectivityProvider useProvider(BuildContext context) {
@@ -29,9 +28,7 @@ class ConnectivityProvider extends ChangeNotifier {
   checkIsOnline() async {
     try {
       final response = await InternetAddress.lookup(
-          AppConstant.url.isNotEmpty
-              ? AppConstant.url
-              : 'www.google.com');
+          AppConstant.url.isNotEmpty ? AppConstant.url : 'www.google.com');
       if (response.isNotEmpty) {
         isOnline = true;
       } else {

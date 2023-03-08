@@ -1,1 +1,1 @@
-export 'package:internet_checker/src/providers/connectivity_provider.dart';
+export 'package:simple_internet_checker/src/providers/connectivity_provider.dart';

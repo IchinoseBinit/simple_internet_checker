@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:internet_checker/connectivity_provider.dart';
-import 'package:internet_checker/settings_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:internet_checker/internet_checker.dart';
+import 'package:internet_checker/src/screen/connectivity_screen.dart';
+
+import './settings_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,12 +16,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => ConnectivityProvider(),
-        )
-      ],
+    return ConnectivityScreen(
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -57,11 +53,31 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  internetUnAvailable() {
+    messengerKey.currentState?.showSnackBar(
+      const SnackBar(
+        content: Text("No Internet Connection"),
+        backgroundColor: Colors.red,
+        duration: Duration(
+          hours: 10,
+        ),
+      ),
+    );
+
+    // Can change this to navigate to proper screen when the internet is not available using nav key as well
+  }
+
+  internetAvailable() {
+    messengerKey.currentState?.clearSnackBars();
+    // Can change this to navigate to proper screen when the internet is restored using nav key as well
+  }
+
   @override
   initState() {
     super.initState();
-    Provider.of<ConnectivityProvider>(context, listen: false)
-        .monitorConnection();
+    useProvider(context).monitorConnection(
+        internetAvailableCallback: internetAvailable,
+        internetUnAvailableCallback: internetUnAvailable);
   }
 
   @override
@@ -73,22 +89,33 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Text(
           'Internet checker',
-          style: Theme.of(context).textTheme.headline4,
+          style: Theme.of(context).textTheme.headlineMedium,
         ),
       ),
       floatingActionButton: FloatingActionButton(
         // onPressed: _incrementCounter,
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const SettingsScreen(),
-          ),
-        ),
+        onPressed: () async {
+          final hasInternet = useProvider(context).isOnline;
+
+          if (hasInternet) {
+            useProvider(context).notify(() {
+              // Can call remove method to clear snackbars
+              messengerKey.currentState?.clearSnackBars();
+              // Can call navigator key to go to a certain screen
+            });
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const SettingsScreen(),
+              ),
+            );
+          }
+        },
         tooltip: 'Increment',
         child: Icon(
           Icons.adaptive.arrow_forward_outlined,
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

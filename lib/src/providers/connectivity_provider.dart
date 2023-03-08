@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_checker/main.dart';
+import 'package:provider/provider.dart';
+
+ConnectivityProvider useProvider(BuildContext context) {
+  return Provider.of<ConnectivityProvider>(context, listen: false);
+}
 
 class ConnectivityProvider extends ChangeNotifier {
   final Connectivity _connectivity = Connectivity();
@@ -21,18 +24,13 @@ class ConnectivityProvider extends ChangeNotifier {
     } on SocketException {
       isOnline = false;
     }
-    if (!isOnline) {
-      notify();
-    } else {
-      remove();
-    }
   }
 
   ConnectivityProvider() {
     checkIsOnline();
   }
 
-  monitorConnection() async {
+  monitorConnection({VoidCallback? internetUnAvailableCallback, VoidCallback? internetAvailableCallback}) async {
     _connectivity.onConnectivityChanged.listen((event) async {
       if (event == ConnectivityResult.mobile ||
           event == ConnectivityResult.wifi ||
@@ -40,27 +38,19 @@ class ConnectivityProvider extends ChangeNotifier {
         await checkIsOnline();
       } else {
         isOnline = false;
-        notify();
+        if (internetUnAvailableCallback != null) {
+          notify(internetUnAvailableCallback);
+        }
+      }
+      if (isOnline) {
+        if (internetAvailableCallback != null) {
+          notify(internetAvailableCallback);
+        }
       }
     });
   }
 
-  notify() {
-    messengerKey.currentState!.showSnackBar(
-      const SnackBar(
-        content: Text(
-          "No internet",
-          textAlign: TextAlign.center,
-        ),
-        backgroundColor: Colors.red,
-        duration: Duration(
-          hours: 10,
-        ),
-      ),
-    );
-  }
-
-  remove() {
-    messengerKey.currentState!.clearSnackBars();
+  notify(VoidCallback callback) {
+    callback();
   }
 }

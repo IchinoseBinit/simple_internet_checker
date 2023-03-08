@@ -1,0 +1,1 @@
+export 'package:internet_checker/src/providers/connectivity_provider.dart';

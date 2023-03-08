@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_internet_checker/internet_checker.dart';
+import 'package:simple_internet_checker/simple_internet_checker.dart';
 import 'package:simple_internet_checker/src/screen/connectivity_screen.dart';
 
 import './settings_screen.dart';

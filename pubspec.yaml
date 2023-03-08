@@ -3,7 +3,7 @@ description: A package to check internet with connectivity changes as well as pi
 repository: https://github.com/IchinoseBinit/simple_internet_checker
 homepage: https://binitkoirala.com.np
 
-version: 0.0.1
+version: 0.0.2
 
 environment:
   sdk: ">=2.16.2 <3.0.0"

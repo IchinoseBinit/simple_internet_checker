@@ -1,5 +1,5 @@
 name: simple_internet_checker
-description: A new package check to the internet connection of a app.
+description: Use this package to check internet with connectivity changes as well as pinging to google. The package allows the functionality to check the internet connection of a app.
 repository: https://github.com/IchinoseBinit/simple_internet_checker
 homepage: https://binitkoirala.com.np
 

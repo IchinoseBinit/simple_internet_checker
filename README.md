@@ -67,4 +67,13 @@ The flag is maintained so that the user can know the status of internet in the d
     }
 ```
 
+## Static URL configuration
+The url is maintained in AppConstant. You can change the url to ping a certain url like your backend. If the url is not changed, the app pings the google server.
+```dart
+    void main() {
+        AppConstant.url = "binitkoirala.com.np";
+        runApp(const MyApp());
+    }
+```
+
 

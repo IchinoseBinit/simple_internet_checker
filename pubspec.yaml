@@ -1,6 +1,6 @@
 name: simple_internet_checker
 description: A new package check to the internet connection of a app.
-repository: https://github.com/IchinoseBinit/internet_checker
+repository: https://github.com/IchinoseBinit/simple_internet_checker
 homepage: https://binitkoirala.com.np
 
 version: 0.0.1

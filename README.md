@@ -1,4 +1,4 @@
-# Internet Checker
+# Simple Internet Checker
 
 Use this package to check internet with connectivity changes as well as pinging to google.
 The package allows the functionality to check the internet connection of a app.
